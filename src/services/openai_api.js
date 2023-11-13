@@ -7,7 +7,6 @@ const openai = new OpenAI({
 let stream;
 async function getAnswer(question, answer, setAnswer, setAnswerDone) {
   var ans = '';
-  console.log(question);
   stream = await openai.beta.chat.completions.stream({
     model: 'gpt-3.5-turbo',
     messages: [
@@ -20,7 +19,6 @@ async function getAnswer(question, answer, setAnswer, setAnswerDone) {
   });
 
   for await (const part of stream) {
-    console.log(part.choices[0]?.delta?.content || '');
     if (part.choices[0]?.delta?.content) {
       ans = ans + part.choices[0]?.delta?.content || '';
       setAnswer(ans);
